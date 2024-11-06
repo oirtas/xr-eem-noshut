@@ -1,0 +1,16 @@
+configure
+!
+username eem
+ group root-lr
+ group cisco-support
+ secret 10 $6$cgqRL1fRrprRBL1.$68F55f9tfxRWA0M1v70q1rklxx.ew.6ynTXxa9DOglTWrMkCEUF8KtjjgIvIBI9VAnRzL2ylWjuqHl91zJa/B0
+!
+event manager directory user policy harddisk:/showtech/
+event manager policy EEM_GSK.tcl username eem persist-time 3600
+aaa authorization eventmanager default local
+!
+root
+!
+show
+!
+commit label eem-noshut
