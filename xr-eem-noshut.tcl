@@ -4,7 +4,7 @@
 # This EEM tcl policy was designed by satr.io
 # using the following applet:
 #
-# event manager applet RELOAD-LC
+# event manager applet AUTO-NO-SHUT
 # event syslog pattern "Interface GigabitEthernet0/0/0/5, changed state to Administratively Down"
 # action 1 cli command "config" 
 # action 2 cli command "interface GigabitEthernet0/0/0/5" 
@@ -23,15 +23,17 @@
 namespace import ::cisco::eem::*
 namespace import ::cisco::lib::*
 
+#query the event info
 array set arr_einfo [event_reqinfo]
 
-
+#Open a CLI connection
 if [catch {cli_open} result] {
     error $result $errorInfo
 } else {
     array set cli1 $result
 }
 
+#Open a CLI connection, executing Cisco commands
 if [catch {cli_exec $cli1(fd) "config"} _cli_result] {
     error $_cli_result $errorInfo
 }
@@ -53,5 +55,5 @@ if [catch {cli_exec $cli1(fd) "commit"} _cli_result] {
 }
 
 
-# Close open cli before exit.
+# Close CLI connection
 catch {cli_close $cli1(fd) $cli1(tty_id)} result
