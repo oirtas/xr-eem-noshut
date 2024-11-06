@@ -1,0 +1,63 @@
+﻿
+RP/0/RP0/CPU0:Test123#show run formal | in event        
+Building configuration...
+event manager directory user policy harddisk:/showtech/
+event manager policy xr_eem_noshut.tcl username eem persist-time 3600
+aaa authorization eventmanager default local
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#dir harddisk:/showtech         
+
+Directory of harddisk:/showtech
+40 -rw-r--r--. 1 1799 Nov  4 10:20 xr_eem_noshut.tcl
+5597840 kbytes total (5152424 kbytes free)
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#show ip int br
+Interface                      IP-Address      Status          Protocol Vrf-Name
+GigabitEthernet0/0/0/5         unassigned      Down            Down     default 
+GigabitEthernet0/0/0/6         unassigned      Shutdown        Down     default 
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#ter mon
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123(config)#
+RP/0/RP0/CPU0:Test123(config)#interface gigabitEthernet 0/0/0/5
+RP/0/RP0/CPU0:Test123(config-if)#shutdown 
+RP/0/RP0/CPU0:Test123(config-if)#
+RP/0/RP0/CPU0:Test123(config-if)#commit label EEM-WILL-NOSHUT-AUTOMATICALLY
+RP/0/RP0/CPU0:Test123(config-if)#
+RP/0/RP0/CPU0:Test123(config-if)#
+LC/0/0/CPU0:Nov  4 11:05:30.663 UTC: ifmgr[237]: %PKT_INFRA-LINK-5-CHANGED : Interface GigabitEthernet0/0/0/5, changed state to Administratively Down 
+RP/0/RP0/CPU0:Nov  4 11:05:31.641 UTC: config[66635]: %MGBL-CONFIG-6-DB_COMMIT : Configuration committed by user 'admin'. Use 'show configuration commit changes 1000000395' to view the changes. 
+RP/0/RP0/CPU0:Test123(config-if)#LC/0/0/CPU0:Nov  4 11:05:33.028 UTC: ifmgr[237]: %PKT_INFRA-LINK-3-UPDOWN : Interface GigabitEthernet0/0/0/5, changed state to Down 
+LC/0/0/CPU0:Nov  4 11:05:33.028 UTC: ifmgr[237]: %PKT_INFRA-LINEPROTO-5-UPDOWN : Line protocol on Interface GigabitEthernet0/0/0/5, changed state to Down 
+RP/0/RP0/CPU0:Nov  4 11:05:33.901 UTC: config[66773]: %MGBL-CONFIG-6-DB_COMMIT : Configuration committed by user 'eem'. Use 'show configuration commit changes 1000000396' to view the changes. 
+RP/0/RP0/CPU0:Nov  4 11:05:34.716 UTC: config[66773]: %MGBL-SYS-5-CONFIG_I : Configured from console by console on vty100 (0.0.0.0) 
+
+RP/0/RP0/CPU0:Test123(config-if)#
+RP/0/RP0/CPU0:Test123(config-if)#
+RP/0/RP0/CPU0:Test123(config-if)#
+RP/0/RP0/CPU0:Test123(config-if)#end
+RP/0/RP0/CPU0:Nov  4 11:05:43.759 UTC: config[66635]: %MGBL-SYS-5-CONFIG_I : Configured from console by admin on vty1 (10.10.20.28) 
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#show ip int br
+
+         unassigned      Shutdown        Down     default 
+GigabitEthernet0/0/0/4         unassigned      Down            Down     default 
+GigabitEthernet0/0/0/5         unassigned      Down            Down     default 
+GigabitEthernet0/0/0/6         unassigned      Shutdown        Down     default 
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#
+RP/0/RP0/CPU0:Test123#show configuration commit list 
+SNo. Label/ID              User      Line                Client      Time Stamp
+~~~~ ~~~~~~~~              ~~~~      ~~~~                ~~~~~~      ~~~~~~~~~~
+1    1000000396            eem       vty100:node0_RP0_C  CLI         Mon Nov  4 11:05:32 2024
+
+RP/0/RP0/CPU0:Test123#show configuration commit changes 1000000396
+Building configuration...
+!! IOS XR Configuration 7.3.2
+interface GigabitEthernet0/0/0/5
+ no shutdown
+!
+end
+RP/0/RP0/CPU0:Test123#
