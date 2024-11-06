@@ -6,7 +6,7 @@ username eem
  secret eemxr
 !
 event manager directory user policy harddisk:/showtech/
-event manager policy EEM_GSK.tcl username eem persist-time 3600
+event manager policy eem_xr_noshut.tcl username eem persist-time 3600
 aaa authorization eventmanager default local
 !
 root
